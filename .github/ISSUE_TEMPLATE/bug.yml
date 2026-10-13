@@ -1,0 +1,117 @@
+name: Bug report
+description: Something isn't working as expected
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this. Please don't paste real personal data, bank details or receipts. Use made-up values instead.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One or two sentences describing the problem.
+      placeholder: Approving a reimbursement over the four-eyes threshold skips the second approver.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The exact steps, requests or clicks that trigger the bug.
+      placeholder: |
+        1. Log in as a member and submit a $750 reimbursement
+        2. Log in as the treasurer and approve it
+        3. Check the request status
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+      placeholder: Status is "Awaiting second approval" and the president is notified.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      placeholder: Status goes straight to "Approved"; no second approval is requested.
+    validations:
+      required: true
+
+  - type: input
+    id: correlation-id
+    attributes:
+      label: Correlation id
+      description: The X-Request-Id from the response headers, the error message or the logs. It lets the request be traced end to end.
+      placeholder: 3f2a9c1e-5b7d-4e8a-9c21-7d4e5f6a8b90
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Where does the bug appear? Pick your best guess.
+      options:
+        - Web app
+        - Core service API
+        - Workflow / approvals
+        - Notifications
+        - Ops dashboard / reporting
+        - Infrastructure / deployment
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - Local (Docker Compose)
+        - CI
+        - Production
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How bad is it?
+      options:
+        - "Critical: data loss, wrong payment or security issue"
+        - "High: a core flow is blocked, no workaround"
+        - "Medium: broken, but there's a workaround"
+        - "Low: cosmetic or minor"
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Release tag or commit SHA, if known.
+      placeholder: v0.1.0 or a1b2c3d
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or error response
+      description: Paste log lines or the Problem Details response body. This is formatted as code automatically.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and this isn't a duplicate
+          required: true
+        - label: I removed any real personal data, credentials or tokens from this report
+          required: true
