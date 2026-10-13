@@ -1,0 +1,14 @@
+spring:
+  docker:
+    compose:
+      file: ../compose.yaml
+      lifecycle-management: start-only
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.hibernate.SQL: debug

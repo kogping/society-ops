@@ -1,0 +1,47 @@
+# gradle/libs.versions.toml
+#
+# Rule of thumb for this file:
+#   - Spring Boot's BOM manages most library versions, so those entries have NO version.
+#     That keeps every Spring/Hibernate/Jackson/Testcontainers version mutually compatible.
+#   - Only libraries the Boot BOM does NOT manage get an explicit version here.
+#   - Add entries when a phase needs them, not before (each addition = its own commit).
+
+[versions]
+# Latest confirmed 4.1.x patch when written; Dependabot will propose newer ones.
+spring-boot = "4.1.1"
+# springdoc 3.x is the line for Spring Boot 4 (2.x is for Boot 3).
+springdoc = "3.0.3"
+
+[libraries]
+spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
+
+spring-boot-starter-webmvc     = { module = "org.springframework.boot:spring-boot-starter-webmvc" }
+spring-boot-starter-data-jpa   = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-actuator   = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-security   = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-flyway     = { module = "org.springframework.boot:spring-boot-starter-flyway" }
+flyway-database-postgresql     = { module = "org.flywaydb:flyway-database-postgresql" }
+postgresql                     = { module = "org.postgresql:postgresql" }
+spring-boot-docker-compose     = { module = "org.springframework.boot:spring-boot-docker-compose" }
+
+springdoc-openapi-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+
+spring-boot-starter-webmvc-test   = { module = "org.springframework.boot:spring-boot-starter-webmvc-test" }
+spring-boot-starter-data-jpa-test = { module = "org.springframework.boot:spring-boot-starter-data-jpa-test" }
+spring-security-test              = { module = "org.springframework.security:spring-security-test" }
+spring-boot-testcontainers        = { module = "org.springframework.boot:spring-boot-testcontainers" }
+
+testcontainers-junit-jupiter      = { module = "org.testcontainers:testcontainers-junit-jupiter" }
+testcontainers-postgresql         = { module = "org.testcontainers:testcontainers-postgresql" }
+junit-platform-launcher           = { module = "org.junit.platform:junit-platform-launcher" }
+
+[bundles]
+testcontainers-postgres = [
+  "spring-boot-testcontainers",
+  "testcontainers-junit-jupiter",
+  "testcontainers-postgresql",
+]
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
