@@ -1,0 +1,459 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Society Ops API",
+    "version" : "v1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost",
+    "description" : "Generated server url"
+  } ],
+  "security" : [ {
+    "basic" : [ ]
+  } ],
+  "paths" : {
+    "/api/v1/requests" : {
+      "get" : {
+        "tags" : [ "request-controller" ],
+        "operationId" : "list",
+        "parameters" : [ {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "SUBMITTED", "APPROVED", "REJECTED", "PAID" ]
+          }
+        }, {
+          "name" : "mine",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : "newest",
+            "enum" : [ "newest", "oldest" ]
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0,
+            "minimum" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 20,
+            "maximum" : 100,
+            "minimum" : 1
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageResponseRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "request-controller" ],
+        "operationId" : "submit",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SubmitReimbursementRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/requests/{id}/reject" : {
+      "post" : {
+        "tags" : [ "request-controller" ],
+        "operationId" : "reject",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RejectRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/requests/{id}/pay" : {
+      "post" : {
+        "tags" : [ "request-controller" ],
+        "operationId" : "pay",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/requests/{id}/approve" : {
+      "post" : {
+        "tags" : [ "request-controller" ],
+        "operationId" : "approve",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/requests/{id}" : {
+      "get" : {
+        "tags" : [ "request-controller" ],
+        "operationId" : "get",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me" : {
+      "get" : {
+        "tags" : [ "me-controller" ],
+        "operationId" : "me",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrentUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "SubmitReimbursementRequest" : {
+        "type" : "object",
+        "properties" : {
+          "firstName" : {
+            "type" : "string",
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "lastName" : {
+            "type" : "string",
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email",
+            "maxLength" : 254,
+            "minLength" : 0
+          },
+          "bsb" : {
+            "type" : "string",
+            "minLength" : 1,
+            "pattern" : "\\d{3}-?\\d{3}"
+          },
+          "accountNumber" : {
+            "type" : "string",
+            "minLength" : 1,
+            "pattern" : "\\d{6,10}"
+          },
+          "portfolio" : {
+            "type" : "string",
+            "enum" : [ "EXEC", "HR", "SOCIALS", "IT", "MARKETING", "PUBLICATIONS", "EDUCATION", "SPONSORSHIPS", "COMPETITIONS" ]
+          },
+          "eventName" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "eventDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "amount" : {
+            "type" : "number",
+            "minimum" : 0.01
+          },
+          "declarationAccepted" : {
+            "type" : "boolean"
+          },
+          "declarationSignature" : {
+            "type" : "string",
+            "maxLength" : 200,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "accountNumber", "amount", "bsb", "declarationSignature", "email", "eventDate", "eventName", "firstName", "lastName", "portfolio" ]
+      },
+      "Bank" : {
+        "type" : "object",
+        "properties" : {
+          "bsb" : {
+            "type" : "string"
+          },
+          "accountNumber" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "accountNumber", "bsb" ]
+      },
+      "Claimant" : {
+        "type" : "object",
+        "properties" : {
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "email", "firstName", "lastName" ]
+      },
+      "RequestResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "SUBMITTED", "APPROVED", "REJECTED", "PAID" ]
+          },
+          "requester" : {
+            "type" : "string"
+          },
+          "claimant" : {
+            "$ref" : "#/components/schemas/Claimant"
+          },
+          "bank" : {
+            "$ref" : "#/components/schemas/Bank"
+          },
+          "portfolio" : {
+            "type" : "string",
+            "enum" : [ "EXEC", "HR", "SOCIALS", "IT", "MARKETING", "PUBLICATIONS", "EDUCATION", "SPONSORSHIPS", "COMPETITIONS" ]
+          },
+          "eventName" : {
+            "type" : "string"
+          },
+          "eventDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "amount" : {
+            "type" : "number"
+          },
+          "currency" : {
+            "type" : "string"
+          },
+          "declarationSignature" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "decidedBy" : {
+            "type" : [ "string", "null" ]
+          },
+          "decidedAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          },
+          "rejectionReason" : {
+            "type" : [ "string", "null" ]
+          },
+          "paidBy" : {
+            "type" : [ "string", "null" ]
+          },
+          "paidAt" : {
+            "type" : [ "string", "null" ],
+            "format" : "date-time"
+          }
+        },
+        "required" : [ "amount", "bank", "claimant", "createdAt", "currency", "declarationSignature", "eventDate", "eventName", "id", "portfolio", "requester", "status", "updatedAt" ]
+      },
+      "RejectRequest" : {
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "type" : "string",
+            "maxLength" : 500,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "reason" ]
+      },
+      "PageResponseRequestResponse" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RequestResponse"
+            }
+          },
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "content", "page", "size", "totalElements", "totalPages" ]
+      },
+      "CurrentUser" : {
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
+          },
+          "roles" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "required" : [ "roles", "username" ]
+      }
+    },
+    "securitySchemes" : {
+      "basic" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}
