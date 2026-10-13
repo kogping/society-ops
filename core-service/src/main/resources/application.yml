@@ -8,6 +8,11 @@ spring:
   flyway:
     enabled: true
 
+societyops:
+  dev-users:
+    member-password: ${MEMBER_PASSWORD:}
+    treasurer-password: ${TREASURER_PASSWORD:}
+
 management:
   endpoints:
     web:

@@ -1,0 +1,4 @@
+societyops:
+  dev-users:
+    member-password: test-member-pw
+    treasurer-password: test-treasurer-pw
