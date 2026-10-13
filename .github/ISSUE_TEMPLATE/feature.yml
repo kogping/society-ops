@@ -1,0 +1,25 @@
+name: Feature or task
+description: A roadmap item or new capability
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should be true when this is done?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: |
+        - [ ] Approving an already-approved request returns 409
+        - [ ] Audit row written in the same transaction
+    validations:
+      required: true
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Roadmap phase
+      options: [P0, P1, P2, P3, P4, P5, P6]
