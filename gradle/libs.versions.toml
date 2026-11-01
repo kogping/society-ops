@@ -10,7 +10,7 @@
 # Latest confirmed 4.1.x patch when written; Dependabot will propose newer ones.
 spring-boot = "4.1.1"
 # springdoc 3.x is the line for Spring Boot 4 (2.x is for Boot 3).
-springdoc = "3.0.3"
+springdoc = "3.2.0"
 
 [libraries]
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
